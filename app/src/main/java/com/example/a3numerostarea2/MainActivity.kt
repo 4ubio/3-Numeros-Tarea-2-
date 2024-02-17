@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -25,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -50,15 +53,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+fun getMax(numberOne: Int, numberTwo: Int, numberThree: Int): String {
+    val numbers = listOf(numberOne, numberTwo, numberThree)
+    return numbers.max().toString()
+}
+
+fun getMin(numberOne: Int, numberTwo: Int, numberThree: Int): String {
+    val numbers = listOf(numberOne, numberTwo, numberThree)
+    return numbers.min().toString()
+}
+
 @Composable
 fun ThreeNumbers() {
     var numberOne: Int by remember { mutableStateOf(0) }
     var numberTwo: Int by remember { mutableStateOf(0) }
     var numberThree: Int by remember { mutableStateOf(0) }
 
-    var numbers = listOf(numberOne, numberTwo, numberThree)
-    var max = numbers.max().toString()
-    var min = numbers.min().toString()
+    var max: String by remember { mutableStateOf("0") }
+    var min: String by remember { mutableStateOf("0") }
 
     Column (
         modifier = Modifier.fillMaxSize(),
@@ -129,8 +141,25 @@ fun ThreeNumbers() {
 
         Spacer(modifier = Modifier.height(15.dp))
 
+        Button(
+            onClick = {
+                max = getMax(numberOne, numberTwo, numberThree)
+                min = getMin(numberOne, numberTwo, numberThree)
+            },
+            colors = ButtonDefaults.buttonColors(Color(0xFFFE5900)),
+            modifier = Modifier.padding(horizontal = 30.dp).fillMaxWidth()
+        ) {
+            Text(
+                text = "Obtener números",
+                color = Color(0xFFFFFFFF),
+                fontSize = 20.sp
+            )
+        }
+
+        Spacer(modifier = Modifier.height(15.dp))
+
         Text(
-            text = "El mayor es: " + max,
+            text = "El mayor es: ${max}",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -139,7 +168,7 @@ fun ThreeNumbers() {
         Spacer(modifier = Modifier.height(15.dp))
 
         Text(
-            text = "El menor es: " + min,
+            text = "El menor es: ${min}",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.CenterHorizontally)
